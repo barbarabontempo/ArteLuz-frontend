@@ -1,3 +1,27 @@
+.header{
+    background: whitesmoke;
+    font-family: 'Raleway Dots', cursive;
+    text-align: center;
+}
+
+.container{
+    width: 80%;
+    margin: auto;
+}
+
+#navbar{
+    background-color: whitesmoke;
+}
+
+#navbar ul{
+    padding:0;
+    list-style: none ;
+}
+
+#navbar li{
+    display: inline;
+
+}
 .images {
     width:  200px;
     height: 200px;
