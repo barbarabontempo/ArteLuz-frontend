@@ -18,6 +18,8 @@ fetch(BASE_URL)
 posts()
 
 function mainPagePostToHtml(postObj){
+    let entirePostDiv = document.createElement("div")
+    entirePostDiv.className = "entire-post-div"
     let postLi = document.createElement("li")
         postLi.className = "main-page-post"
         postLi.innerText = postObj.title
@@ -35,7 +37,8 @@ function mainPagePostToHtml(postObj){
         photoDiv.append(postPicture)
         detailsDiv.append(userNameSpan, likesSpan)
         postLi.append(photoDiv, detailsDiv)
-        postsOl.append(postLi)
+        entirePostDiv.append(postLi)
+        postsOl.append(entirePostDiv)
 }
 
 newPostForm.addEventListener("submit", event => {

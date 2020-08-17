@@ -1,78 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ARTE LUZ</title>
-    <link rel="shortcut icon" href="images/articon.png" />
-    <script defer src="modal.js"></script>
-    <script defer type="text/javascript" src="src/index.js"></script>
-    <link rel="stylesheet" href="index.css">
-  </head>
-  <body>
-    <div class="header">
-      <h1>ARTE LUZ</h1>
-    </div>
-    <nav class="nav-bar">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARTE LUZ</title>
+  <link rel="shortcut icon" href="images/articon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway+Dots&display=swap" rel="stylesheet">
+  <script defer src="modal.js"></script>
+  <script defer type="text/javascript" src="src/index.js"></script>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div class="header">
+    <h1>ARTE LUZ</h1>
+  </div>
+  <!-- NAV BAR -->
+  <nav id="navbar">
+    <div class="container">
       <ul class="categories">
         <li class="paintings">
-          <a href="#">Paintings</a>
+          Paintings
         </li>
         <li class="drawings">
-          <a href="#">Drawings</a>
+          Drawings
         </li>
         <li class="photography">
-          <a href="#">Photography</a>
+          Photography
         </li>
         <li class="random">
-          <a href="#">Random</a>
+          Random
         </li>
-
-      </ul>
-      
-      <ul id="actions-container" class="side-list">
         <li class="item" id="make-post-button" data-action="new">
           Make New Post
         </li>
       </ul>
+  </nav>
+  </div>
+  <!-- END OF NAV BAR -->
 
-    </nav>
-
-    <div class="container">
-      <ol class="all-posts">
-        <!-- <li class="post-li">Posts go here</li>
+  <!-- ALL POSTS -->
+  <div class="container"></div>
+  <ol class="all-posts">
+    <!-- <li class="post-li">Posts go here</li>
         <div class="details">Post details go here</div> -->
-      </ol>
-    </div>
+  </ol>
+  </div>
+  <!-- END OF ALL POSTS -->
 
 
+  <!-- MODAL FORM TO CREATE NEW POST  -->
+  <div id="modal" style="display: none;" data-action="close">
+    <form id="new-post-form">
+      <h1>Create New Post</h1>
 
-    <div id="modal" style="display: none;" data-action="close">
-      <form id="new-post-form">
-        <h1>Create New Post</h1>
+      <label for="username">Name</label>
+      <input type="text" name="username" id="username-input">
 
-        <label for="username">Name</label>
-        <input type="text" name="username" id="username-input">
+      <label for="image">Image </label>
+      <input type="text" name="image" id="image-input">
 
-        <label for="image">Image </label>
-        <input type="text" name="image" id="image-input">
+      <label for="description">Description</label>
+      <textarea name="description" rows="2" id="description-input"></textarea>
 
-        <label for="description">Description</label>
-        <textarea name="description" rows="2" id="description-input"></textarea>
+      <label for="category">Select Category</label>
+      <select id="category">
+        <option value="paintings">Paintings</option>
+        <option value="drawings">Drawing</option>
+        <option value="photography">Photography</option>
+        <option value="random">Random</option>
+      </select>
 
-        <label for="category">Select Category</label>
-             <select id = "category">
-               <option value = "paintings">Paintings</option>
-               <option value = "drawings">Drawing</option>
-               <option value = "photography">Photography</option>
-               <option value = "random">Random</option>
-             </select>
+      <input type="submit" value="Create Post">
+    </form>
+  </div>
+  <!-- END OF MODAL FORM TO CREATE NEW POST -->
 
-        <input type="submit" value="Create Post">
-      </form>
-    </div>
+  <footer>Footer</footer>
+</body>
 
-  
-    <footer>Footer</footer>
-  </body>
 </html>
