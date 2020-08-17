@@ -4,6 +4,8 @@ const newPostForm = document.querySelector("#new-post-form")
 
 
 const postsArray = []
+// const singlePost = postsArray[0]
+// console.log(postsArray)
 
 function posts() {
 fetch(BASE_URL)
@@ -11,7 +13,7 @@ fetch(BASE_URL)
 .then(postsArr => {
     postsArr.forEach(postObj => {
         mainPagePostToHtml(postObj)
-        // postsArray.push(postObj)
+        postsArray.push(postObj)
     })
 })
 };
@@ -41,28 +43,33 @@ function mainPagePostToHtml(postObj){
         postsOl.append(entirePostDiv)
 }
 
-newPostForm.addEventListener("submit", event => {
+function createNewPostForm(postObj) {
+newPostForm.addEventListener("submit", evt => {
     event.preventDefault()
-
-    const newPostObj = {
-      username: newPostForm.name.value,
-      image: newPostForm.image.value,
-      description: newPostForm.description.value,
-      category: newPostForm.category.value
+// console.log(evt.target.username.value)
+    // let allPosts = Post.all
+    const userInput = {
+      image: evt.target.image.value,
+      description: evt.target.description.value,
+      category: evt.target.category.value,
+      user: { username: evt.target.username.value}
     }
-  
+    console.log(userInput)
     fetch('http://localhost:3000/posts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newPostObj),
+      body: JSON.stringify(userInput),
     })
       .then(r => r.json())
-      .then(newPost => {
-        debugger
+      .then((newPost) => {
         mainPagePostToHtml(newPost)
+        debugger
+        
+        newPostForm.reset()
+        // allPosts.push(newPost)
       })
-  
   })
+}
 
