@@ -1,6 +1,7 @@
 BASE_URL = "http://localhost:3000/posts";
 const postsOl = document.querySelector(".all-posts");
 const newPostForm = document.querySelector("#new-post-form");
+const loginForm = document.querySelector("#login-form")
 
 const postsArray = [];
 
@@ -17,6 +18,7 @@ function posts() {
 posts();
 
 function mainPagePostToHtml(postObj) {
+  // debugger
   let postLi = document.createElement("li");
   postLi.className = "post-item";
 
@@ -32,7 +34,7 @@ function mainPagePostToHtml(postObj) {
   detailDiv.className = "detail-div"
   let userNameSpan = document.createElement("span");
   userNameSpan.className = "username-spans";
-  userNameSpan.innerText = postObj.user["username"];
+  userNameSpan.innerText = postObj.user_name;
 
   let likesSpan = document.createElement("span");
   likesSpan.className = "likes-span";
@@ -45,9 +47,60 @@ function mainPagePostToHtml(postObj) {
   newPostForm.addEventListener("submit", createNewPostForm)
 }
 
+// -----------------LOGIN FORM--------------------
+let showLoginForm = () => {
+  
+  loginForm.addEventListener("submit", handleLoginForm)
+  
+}   
+
+let handleLoginForm = (evt) => {
+  evt.preventDefault()
+  let username = evt.target.username.value
+  debugger
+  console.log(username)
+  fetch("http://localhost:3000/users/login", {
+      method: "POST",
+      headers: {
+          "content-type": "application/json"
+      },
+      body: JSON.stringify({
+          usernameFromFrontEnd: username
+      })
+  })
+      .then(res => res.json())
+      .then(response => {
+          if(response.id){
+              showTeacherInformation(response)
+          } else {
+              console.log(response)
+          }
+
+      })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // ------------- NEW POST FORM -------------------
 let createNewPostForm = (evt) => {
     evt.preventDefault()
 // console.log(evt.target.username.value)
+
     const userInput = {
       image: evt.target.image.value,
       description: evt.target.description.value,
@@ -70,15 +123,15 @@ let createNewPostForm = (evt) => {
       })
   }
 
-  fetch("http://localhost:3000/posts", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newPostObj),
-  })
-    .then((r) => r.json())
-    .then((newPost) => {
-      debugger;
-      mainPagePostToHtml(newPost);
-    });
+//   fetch("http://localhost:3000/posts", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(newPostObj),
+//   })
+//     .then((r) => r.json())
+//     .then((newPost) => {
+//       debugger;
+//       mainPagePostToHtml(newPost);
+//     });

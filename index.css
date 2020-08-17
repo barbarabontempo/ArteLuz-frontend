@@ -42,6 +42,24 @@
     margin: 20vh auto 0;
     padding: 20px;
   }
+#modal1 {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+  
+  #login-form {
+    background-color: whitesmoke;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    width: 500px;
+    margin: 20vh auto 0;
+    padding: 20px;
+  }
 
   input[type=text] {
     width: 100%;
