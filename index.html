@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ARTE LUZ</title>
     <link rel="shortcut icon" href="images/articon.png" />
+    <script defer src="modal.js"></script>
     <script defer type="text/javascript" src="src/index.js"></script>
+    <link rel="stylesheet" href="index.css">
   </head>
   <body>
     <div class="header">
@@ -25,14 +27,52 @@
         <li class="random">
           <a href="#">Random</a>
         </li>
+
       </ul>
+      
+      <ul id="actions-container" class="side-list">
+        <li class="item" id="make-post-button" data-action="new">
+          Make New Post
+        </li>
+      </ul>
+
     </nav>
+
     <div class="container">
       <ol class="all-posts">
         <!-- <li class="post-li">Posts go here</li>
         <div class="details">Post details go here</div> -->
       </ol>
     </div>
+
+
+
+    <div id="modal" style="display: none;" data-action="close">
+      <form id="new-post-form">
+        <h1>Create New Post</h1>
+
+        <label for="username">Name</label>
+        <input type="text" name="username" id="username-input">
+
+        <label for="image">Image </label>
+        <input type="text" name="image" id="image-input">
+
+        <label for="description">Description</label>
+        <textarea name="description" rows="2" id="description-input"></textarea>
+
+        <label for="category">Select Category</label>
+             <select id = "category">
+               <option value = "paintings">Paintings</option>
+               <option value = "drawings">Drawing</option>
+               <option value = "photography">Photography</option>
+               <option value = "random">Random</option>
+             </select>
+
+        <input type="submit" value="Create Post">
+      </form>
+    </div>
+
+  
     <footer>Footer</footer>
   </body>
 </html>
