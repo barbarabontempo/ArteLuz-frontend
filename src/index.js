@@ -41,13 +41,13 @@ function mainPagePostToHtml(postObj) {
   detailDiv.append(userNameSpan, likesSpan)
   postLi.append(postPicture, titleh3, detailDiv);
   postsOl.append(postLi);
+
+  newPostForm.addEventListener("submit", createNewPostForm)
 }
 
-function createNewPostForm(postObj) {
-newPostForm.addEventListener("submit", evt => {
-    event.preventDefault()
+let createNewPostForm = (evt) => {
+    evt.preventDefault()
 // console.log(evt.target.username.value)
-    // let allPosts = Post.all
     const userInput = {
       image: evt.target.image.value,
       description: evt.target.description.value,
@@ -58,20 +58,17 @@ newPostForm.addEventListener("submit", evt => {
     fetch('http://localhost:3000/posts', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(userInput),
+      body: JSON.stringify(userInput)
     })
       .then(r => r.json())
       .then((newPost) => {
         mainPagePostToHtml(newPost)
         debugger
-        
         newPostForm.reset()
-        // allPosts.push(newPost)
       })
-  })
-}
+  }
 
   fetch("http://localhost:3000/posts", {
     method: "POST",
@@ -85,4 +82,3 @@ newPostForm.addEventListener("submit", evt => {
       debugger;
       mainPagePostToHtml(newPost);
     });
-});
