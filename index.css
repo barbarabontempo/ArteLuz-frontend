@@ -47,10 +47,20 @@
   
   #new-post-form {
     background-color: whitesmoke;
-    margin-top: 20vh;
-    width: 600px;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    width: 500px;
     margin: 20vh auto 0;
+    padding: 20px;
   }
+
+  input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+  }
+<<<<<<< HEAD
   
  .container-posts{
      display: flex;
@@ -71,4 +81,6 @@
 
 
 
+=======
+>>>>>>> 98b50e9c446d8d52178d87029e8c550dfe0ad33d
   
