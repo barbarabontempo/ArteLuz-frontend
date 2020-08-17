@@ -19,9 +19,9 @@ posts()
 
 function mainPagePostToHtml(postObj){
     let entirePostDiv = document.createElement("div")
-    entirePostDiv.className = "entire-post-div"
+    entirePostDiv.className = "item"
     let postLi = document.createElement("li")
-        postLi.className = "main-page-post"
+        postLi.className = "post-title"
         postLi.innerText = postObj.title
     let photoDiv = document.createElement("div")
         photoDiv.className = "image-div"

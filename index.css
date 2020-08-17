@@ -52,4 +52,23 @@
     margin: 20vh auto 0;
   }
   
+ .container-posts{
+     display: flex;
+ }
+  .all-posts {
+    background-color: grey;
+    display: flex;
+  }
+
+  .item {
+  width: 100%;
+  padding: 35px;
+  margin-top: 10px;
+  background-color: honeydew;
+}
+
+
+
+
+
   
