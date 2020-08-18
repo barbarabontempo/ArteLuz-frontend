@@ -74,7 +74,7 @@
       display:flex;
       gap:5px;
       flex-wrap: wrap;
-
+justify-content: center;
   }
 
   .post-item{
@@ -90,9 +90,9 @@
       /* background: black; */
       width: 200px;
       position: absolute;
-      top:10%;
-      left:10%;
-      transform: translate(-10%, -10%)
+      top:5%;
+      left:5%;
+      transform: translate(-5%, -5%)
   }
 
   .detail-div{
