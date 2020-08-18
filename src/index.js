@@ -31,11 +31,13 @@ function handleLoginForm(evt) {
     });
 }
 
+
+
 // ------------ WHAT TO DO WITH USER RESPONSE ------------
 let showUserInfo = (user) => {
   makeNewPostLi(user);
+  newPostForm.user_id.value = user.id
   debugger
-  newPostForm.user_id.value.innerText = user.id
   user.posts.forEach(singlePost => {
     mainPagePostToHtml(singlePost)
   });
@@ -141,8 +143,8 @@ debugger
       image: evt.target.image.value,
       description: evt.target.description.value,
       category: evt.target.category.value,
-      
     }
+
     console.log(userInput)
     fetch('http://localhost:3000/posts', {
       method: 'POST',
