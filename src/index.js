@@ -37,7 +37,6 @@ function handleLoginForm(evt) {
 let showUserInfo = (user) => {
   makeNewPostLi(user);
   newPostForm.user_id.value = user.id
-  debugger
   user.posts.forEach(singlePost => {
     mainPagePostToHtml(singlePost)
   });
@@ -140,9 +139,11 @@ let createNewPostForm = (evt) => {
 debugger
 
     const userInput = {
+      title: evt.target.title.value,
       image: evt.target.image.value,
       description: evt.target.description.value,
       category: evt.target.category.value,
+      user_id: evt.target.user_id.value
     }
 
     console.log(userInput)
