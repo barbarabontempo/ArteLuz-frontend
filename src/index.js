@@ -83,7 +83,7 @@ let showUserInfo = (user) => {
 // ------------ APPEND AFTER LOGIN ------------
 
 function makeNewPostLi() {
-  navbarDiv.innerHTML = ""
+  // loginForm.innerHTML = ""
   let newPostLi = document.createElement("li")
     newPostLi.className = "item1"
     newPostLi.id = "make-post-button"
@@ -101,77 +101,32 @@ modal.addEventListener("click", e => {
     modal.style.display = "none"
   }
 })
-  // newPostForm.addEventListener("submit", createNewPostForm)
+  newPostForm.addEventListener("submit", createNewPostForm)
 }
 
-// let setSideBar = (teacher) => {
-//   sideBarDiv.innerHTML = ""
-//   let teacherUsername = document.createElement("p")
-//       teacherUsername.className = "font-weight-bold text-center"
-//       teacherUsername.innerText = `Logged in as ${teacher.name}`
-  
-//   let logOutButton = document.createElement("button")
-//       logOutButton.className = "btn btn-danger"
-//       logOutButton.innerText = "Logout"
-  
-//   sideBarDiv.append(teacherUsername, logOutButton)
-//   logOutButton.addEventListener("click", (evt) => {
-//       logOut()
-//   })
-// }
-
-// let logOut = () => {
-//   showLoginForm()
-//   classroomsListUl.innerHTML = ""
-//   gradesTable.innerHTML = ""
-// }
-
-
-
-
-
-
-
-
-
-
-
 // // ------------- NEW POST FORM -------------------
-// let createNewPostForm = (evt) => {
-//     evt.preventDefault()
-// // console.log(evt.target.username.value)
+let createNewPostForm = (evt) => {
+    evt.preventDefault()
+// console.log(evt.target.username.value)
 
-//     const userInput = {
-//       image: evt.target.image.value,
-//       description: evt.target.description.value,
-//       category: evt.target.category.value,
-//       user: { username: evt.target.username.value}
-//     }
-//     console.log(userInput)
-//     fetch('http://localhost:3000/posts', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify(userInput)
-//     })
-//       .then(r => r.json())
-//       .then((newPost) => {
-//         mainPagePostToHtml(newPost)
-//         debugger
-//         newPostForm.reset()
-//       })
-//   }
-
-//   fetch("http://localhost:3000/posts", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(newPostObj),
-//   })
-//     .then((r) => r.json())
-//     .then((newPost) => {
-//       debugger;
-//       mainPagePostToHtml(newPost);
-//     });
+    const userInput = {
+      image: evt.target.image.value,
+      description: evt.target.description.value,
+      category: evt.target.category.value,
+      user: { username: evt.target.username.value}
+    }
+    console.log(userInput)
+    fetch('http://localhost:3000/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userInput)
+    })
+      .then(r => r.json())
+      .then((newPost) => {
+        mainPagePostToHtml(newPost)
+        debugger
+        newPostForm.reset()
+      })
+  }
