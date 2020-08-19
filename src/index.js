@@ -45,6 +45,7 @@ let showUserInfo = (user) => {
 //new post form.input.value = user.id 
 
 };
+
 // ------------ APPEND AFTER LOGIN ------------
 
 function makeNewPostLi() {
@@ -66,11 +67,14 @@ function makeNewPostLi() {
   let randomLi = document.createElement("li")
   randomLi.innerText = "Random"
 
+  let allPosts = document.createElement("button")
+    allPosts.innerText = "All Posts"
+
   let logOutButton = document.createElement("button");
   logOutButton.className = "btn btn-danger";
   logOutButton.innerText = "Logout";
 
-  navbarDiv.append(paintingsLi, drawingsLi, photographyLi, randomLi, newPostLi, logOutButton);
+  navbarDiv.append(paintingsLi, drawingsLi, photographyLi, randomLi, allPosts, newPostLi, logOutButton);
 
   const modal = document.querySelector("#modal");
   newPostLi.addEventListener("click", () => {
@@ -82,29 +86,85 @@ function makeNewPostLi() {
       modal.style.display = "none";
     }
   });
+  // ---------------------- LOGOUT -----------
   logOutButton.addEventListener("click", (evt) => {
     logOut();
   });
+// ---------------------- ALL POSTS EVT LISTENER -----------
+  allPosts.addEventListener("click", (evt) => {
+    postsOl.innerHTML = ""
+    fetch(BASE_URL)
+    .then((r) => r.json())
+    .then((postsArr) => {
+      console.log(postsArr)
+      postsArr.forEach((postObj) => {
+        mainPagePostToHtml(postObj);
+        // postsArray.push(postObj)
+      });
+    });
+  })
+// ---------------------- PAINTINGS EVT LISTENER -----------
+  paintingsLi.addEventListener("click", (evt) => {
+    postsOl.innerHTML = ""
+    fetch(BASE_URL)
+    .then((r) => r.json())
+    .then((postsArr) => {
+      console.log(postsArr)
+      postsArr.forEach((postObj) => {
+        if (postObj.category === "paintings"){
+          mainPagePostToHtml(postObj);
+      }
+      });
+    });
+  })
+// ---------------------- PHOTOGRAPHY EVT LISTENER -----------
+photographyLi.addEventListener("click", (evt) => {
+  postsOl.innerHTML = ""
+  fetch(BASE_URL)
+  .then((r) => r.json())
+  .then((postsArr) => {
+    console.log(postsArr)
+    postsArr.forEach((postObj) => {
+      if (postObj.category === "photography"){
+        mainPagePostToHtml(postObj);
+    }
+    });
+  });
+})
+// ---------------------- DRAWINGS EVT LISTENER -----------
+drawingsLi.addEventListener("click", (evt) => {
+  postsOl.innerHTML = ""
+  fetch(BASE_URL)
+  .then((r) => r.json())
+  .then((postsArr) => {
+    console.log(postsArr)
+    postsArr.forEach((postObj) => {
+      if (postObj.category === "drawings"){
+        mainPagePostToHtml(postObj);
+    }
+    });
+  });
+})
+// ---------------------- RANDOM EVT LISTENER -----------
+randomLi.addEventListener("click", (evt) => {
+  postsOl.innerHTML = ""
+  fetch(BASE_URL)
+  .then((r) => r.json())
+  .then((postsArr) => {
+    console.log(postsArr)
+    postsArr.forEach((postObj) => {
+      if (postObj.category === "random"){
+        mainPagePostToHtml(postObj);
+    }
+    });
+  });
+})
 
 }
-
 let logOut = () => {
   makeNewPostLi();
   postsOl.innerHTML=""
 };
-
-
-// function posts() {
-//   fetch(BASE_URL)
-//     .then((r) => r.json())
-//     .then((postsArr) => {
-//       postsArr.forEach((postObj) => {
-//         mainPagePostToHtml(postObj);
-//         // postsArray.push(postObj)
-//       });
-//     });
-// }
-// posts();
 
 function mainPagePostToHtml(postObj) {
   let postLi = document.createElement("li");
@@ -131,6 +191,29 @@ function mainPagePostToHtml(postObj) {
   detailDiv.append(userNameSpan, likesSpan);
   postLi.append(postPicture, titleh3, detailDiv);
   postsOl.append(postLi);
+
+  //=============== LIKE EVT LISTENER ------------------
+  likesSpan.addEventListener("click", (evt) => {
+    let likesPlus = postObj.likes     // GET LIKES WE ALREADY HAVE 
+        fetch(`http://localhost:3000/likes/`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({                // ADD LIKES OBJECT PROPERTIES
+                // quoteId: singleQuote.id,   
+                post_id: postObj.id,
+                user_id: postObj.user_id
+            })
+            })
+            .then(resp => resp.json())
+            .then((newLike) => {
+                // PUSH THE NEW LIKE TO OUR LIKES ARRAY AKA LIKESPLUS
+                likesPlus.push(newLike)
+                // ADD THE UPDATED ARRAY AKA LIKESPLUS TO OUR LIKES SPAN
+                likesSpan.innerText = `❤️ ${likesPlus.length}`
+            })
+  })
 }
 
 //------------- NEW POST FORM -------------------
