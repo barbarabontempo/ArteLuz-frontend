@@ -136,7 +136,6 @@ function mainPagePostToHtml(postObj) {
 //------------- NEW POST FORM -------------------
 let createNewPostForm = (evt) => {
     evt.preventDefault()
-debugger
 
     const userInput = {
       title: evt.target.title.value,
@@ -157,7 +156,6 @@ debugger
       .then(r => r.json())
       .then((newPost) => {
         mainPagePostToHtml(newPost)
-        debugger
         newPostForm.reset()
       })
   }
