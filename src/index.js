@@ -3,6 +3,7 @@ const postsOl = document.querySelector(".all-posts");
 const newPostForm = document.querySelector("#new-post-form");
 const loginForm = document.querySelector("#login-form");
 const navbarDiv = document.querySelector(".container");
+const fullPostDiv = document.querySelector(".full-post-div")
 const postsArray = [];
 
 // -----------------LOGIN FORM--------------------
@@ -191,6 +192,73 @@ function mainPagePostToHtml(postObj) {
   detailDiv.append(userNameSpan, likesSpan);
   postLi.append(postPicture, titleh3, detailDiv);
   postsOl.append(postLi);
+
+//---------IMG EVT LISTENER-----------------
+const modalPost = document.querySelector(".modal-post");
+const xSpan = document.querySelector(".close")
+// When the user clicks the button, open the modal 
+postPicture.addEventListener("click", (evt) => {
+  modalPost.style.display = "block";
+  
+  fullPostDiv.innerHTML = ""
+  let titleHeader = document.createElement("h3")
+  titleHeader.innerText = postObj.title
+  titleHeader.className = "post-title-header"
+
+  let fullPostImg = document.createElement("img")
+  fullPostImg.src = postObj.image
+  fullPostImg.className = "post-title-img"
+
+  let likeUserDiv = document.createElement("div");
+  likeUserDiv.className = "like-user-div";
+  
+  let userSpan = document.createElement("span")
+  userSpan.innerText = postObj.user_name
+  userSpan.className = "user-span"
+
+  let fullPostLikes = document.createElement("span")
+  fullPostLikes.innerText = `❤️ ${postObj.likes.length}`
+  fullPostLikes.className = "post-likes-span"
+
+  let commentUl = document.createElement("ul")
+  commentUl.className = "comment-ul"
+
+  postObj.comments.forEach(function(comment) {
+    let commentLi = document.createElement("li")
+    commentLi.innerText = `${comment.content} Written by: ${comment.user_name}`
+    commentUl.append(commentLi)
+  })
+
+  let deletePostBtn = document.createElement("span")
+  deletePostBtn.innerText = "🗑 DELETE THIS POST!"
+      // EVENT LISTENER TO DELETE BUTTON
+      deletePostBtn.addEventListener("click", (evt) => {
+        fetch(`http://localhost:3000/posts/${postObj.id}`, {
+            method: "DELETE"  
+        })
+        .then(resp => resp.json())
+        .then(() => {
+          fullPostDiv.remove()
+        })
+    }) // END OF DELETE EVENT LISTENER
+  likeUserDiv.append(userSpan, fullPostLikes)
+  fullPostDiv.append(titleHeader, fullPostImg, likeUserDiv, commentUl, deletePostBtn)
+});
+
+// When the user clicks on <span> (x), close the modal
+xSpan.onclick = function() {
+  modalPost.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modalPost.style.display = "none";
+  }
+}
+
+//--------END OF IMAGE EVENT LISTENERRRR-------
+
 
   //=============== LIKE EVT LISTENER ------------------
   likesSpan.addEventListener("click", (evt) => {
