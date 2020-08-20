@@ -2,7 +2,7 @@ BASE_URL = "http://localhost:3000/posts";
 const postsOl = document.querySelector(".all-posts");
 const newPostForm = document.querySelector("#new-post-form");
 const loginForm = document.querySelector("#login-form");
-const navbarDiv = document.querySelector(".container");
+const navbarDiv = document.querySelector(".container-nav");
 const fullPostDiv = document.querySelector(".full-post-div")
 const postsArray = [];
 
@@ -48,7 +48,7 @@ let showUserInfo = (user) => {
 
 function makeNewPostLi(singlePostObj) {
   navbarDiv.innerHTML = "";
-  let newPostLi = document.createElement("button");
+  let newPostLi = document.createElement("li");
   newPostLi.className = "item1";
   newPostLi.id = "make-post-button";
   newPostLi.innerText = "Make a New Post";
@@ -69,11 +69,11 @@ function makeNewPostLi(singlePostObj) {
   randomLi.innerText = "Random"
   randomLi.className ="random-li"
 
-  let myPosts = document.createElement("button")
+  let myPosts = document.createElement("li")
     myPosts.innerText = "My Posts"
     myPosts.className = "my-posts-btn"
 
-  let allPosts = document.createElement("button")
+  let allPosts = document.createElement("li")
     allPosts.innerText = "All Posts"
 
   let logOutButton = document.createElement("button");
@@ -208,6 +208,9 @@ postPicture.addEventListener("click", (evt) => {
   modalPost.style.display = "block";
   
   fullPostDiv.innerHTML = ""
+  let modalBodyDiv = document.createElement("div")
+  modalBodyDiv.className = "modal-body"
+
   let titleHeader = document.createElement("h3")
   titleHeader.innerText = postObj.title
   titleHeader.className = "post-title-header"
@@ -215,6 +218,9 @@ postPicture.addEventListener("click", (evt) => {
   let fullPostImg = document.createElement("img")
   fullPostImg.src = postObj.image
   fullPostImg.className = "post-title-img"
+
+  let postDescription = document.createElement("p")
+  postDescription.innerText = postObj.description
 
   let likeUserDiv = document.createElement("div");
   likeUserDiv.className = "like-user-div";
@@ -274,7 +280,8 @@ postPicture.addEventListener("click", (evt) => {
 
     commentForm.append(commentLabel, commentInput, hiddenCommentField, submitComment)
   likeUserDiv.append(userSpan, fullPostLikes)
-  fullPostDiv.append(titleHeader, fullPostImg, likeUserDiv, commentUl, commentForm, deletePostBtn)
+  modalBodyDiv.append(titleHeader, fullPostImg, postDescription, likeUserDiv, commentUl, commentForm, deletePostBtn)
+  fullPostDiv.append(modalBodyDiv)
 });
 
 // When the user clicks on <span> (x), close the modal
