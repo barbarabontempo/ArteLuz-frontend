@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+body{
+  font-family: 'Montserrat', sans-serif;
+}
+
 .header{
     background: whitesmoke;
     font-family: 'Raleway Dots', cursive;
@@ -7,6 +13,12 @@
 .container{
     width: 80%;
     margin: auto;
+}
+
+.nav-container{
+  display: flex;
+  justify-content: flex-end;
+  padding: 30px 10px;
 }
 
 #navbar{
@@ -20,7 +32,13 @@
 
 #navbar li{
     display: inline;
-
+    padding:  0px 20px;
+}
+#navbar button{
+    display: inline;
+    padding:  0px 20px;
+    margin-right: 20px;
+    
 }
 
   
@@ -32,6 +50,12 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.75);
+    overflow-y: initial
+  }
+
+  .modal-body{
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
   }
   
   #new-post-form {
