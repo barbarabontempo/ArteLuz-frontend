@@ -38,13 +38,18 @@ let showUserInfo = (user) => {
   loggedInUser.push(user)
   makeNewPostLi(user);
   newPostForm.user_id.value = user.id
-  user.posts.forEach(singlePost => {
-    mainPagePostToHtml(singlePost)
-  });
+    fetch(BASE_URL)
+    .then((r) => r.json())
+    .then((postsArr) => {
+      postsArr.forEach((postObj) => {
+        postsArray.push(postObj)
+        mainPagePostToHtml(postObj);
+      });
+    });
+  };
 //make the id of the user be equal to the hidden value 
 //create new post is submitted we have that id
 //new post form.input.value = user.id 
-};
 
 // ------------ APPEND AFTER LOGIN ------------
 function makeNewPostLi(singlePostObj) {
@@ -105,15 +110,10 @@ function makeNewPostLi(singlePostObj) {
 // ---------------------- ALL POSTS EVT LISTENER -----------
   allPosts.addEventListener("click", (evt) => {
     postsOl.innerHTML = ""
-    fetch(BASE_URL)
-    .then((r) => r.json())
-    .then((postsArr) => {
-      postsArr.forEach((postObj) => {
-        postsArray.push(postObj)
+      postsArray.forEach((postObj) => {
         mainPagePostToHtml(postObj);
       });
     });
-  })
 // ---------------------- PAINTINGS EVT LISTENER -----------
   paintingsLi.addEventListener("click", (evt) => {
     postsOl.innerHTML = ""
@@ -246,8 +246,8 @@ postPicture.addEventListener("click", (evt) => {
 
     commentForm.append(commentLabel, commentInput, hiddenCommentField, submitComment)
 
-  // *****************************************************************************
-    // *************** EVT LISTENER FOR COMMENT FORM *****************************
+  // ***************************************************************************
+  // *************** EVT LISTENER FOR COMMENT FORM ***************************
   let createNewComment = (evt) => {
     evt.preventDefault()
 
@@ -273,7 +273,7 @@ postPicture.addEventListener("click", (evt) => {
   }
   commentForm.addEventListener("submit", createNewComment)
 
-    // *************************** END OF EVT LISTENER ******************************
+// *************************** END OF EVT LISTENER ******************************
 // ************************ END OF COMMENT FORM **************************************
 
   let deletePostBtn = document.createElement("span")
