@@ -23,7 +23,6 @@ function handleLoginForm(evt) {
   })
     .then((res) => res.json())
     .then((response) => {
-      console.log(response);
       if (response.id) {
         showUserInfo(response);
       } else {
@@ -41,15 +40,13 @@ let showUserInfo = (user) => {
   user.posts.forEach(singlePost => {
     mainPagePostToHtml(singlePost)
   });
-//make the id of the user be equal to the hidden value 
-//create new post is submitted we have that id
-//new post form.input.value = user.id 
+
 
 };
 
 // ------------ APPEND AFTER LOGIN ------------
 
-function makeNewPostLi() {
+function makeNewPostLi(singlePostObj) {
   navbarDiv.innerHTML = "";
   let newPostLi = document.createElement("button");
   newPostLi.className = "item1";
@@ -58,15 +55,23 @@ function makeNewPostLi() {
 
   let paintingsLi = document.createElement("li")
   paintingsLi.innerText = "Paintings"
+  paintingsLi.className = "painting-li"
 
   let drawingsLi = document.createElement("li")
   drawingsLi.innerText = "Drawings"
+  drawingsLi.className = "drawings-li"
 
   let photographyLi = document.createElement("li")
   photographyLi.innerText = "Photography"
+  photographyLi.className = "photography-li"
 
   let randomLi = document.createElement("li")
   randomLi.innerText = "Random"
+  randomLi.className ="random-li"
+
+  let myPosts = document.createElement("button")
+    myPosts.innerText = "My Posts"
+    myPosts.className = "my-posts-btn"
 
   let allPosts = document.createElement("button")
     allPosts.innerText = "All Posts"
@@ -75,7 +80,14 @@ function makeNewPostLi() {
   logOutButton.className = "btn btn-danger";
   logOutButton.innerText = "Logout";
 
-  navbarDiv.append(paintingsLi, drawingsLi, photographyLi, randomLi, allPosts, newPostLi, logOutButton);
+  navbarDiv.append(paintingsLi, drawingsLi, photographyLi, randomLi, myPosts, allPosts, newPostLi, logOutButton);
+
+  myPosts.addEventListener("click", (evt) => {
+    postsOl.innerHTML = ""
+    singlePostObj.posts.forEach(singlePost => {
+      mainPagePostToHtml(singlePost)
+    });
+  })
 
   const modal = document.querySelector("#modal");
   newPostLi.addEventListener("click", () => {
@@ -97,7 +109,6 @@ function makeNewPostLi() {
     fetch(BASE_URL)
     .then((r) => r.json())
     .then((postsArr) => {
-      console.log(postsArr)
       postsArr.forEach((postObj) => {
         mainPagePostToHtml(postObj);
         // postsArray.push(postObj)
@@ -110,7 +121,6 @@ function makeNewPostLi() {
     fetch(BASE_URL)
     .then((r) => r.json())
     .then((postsArr) => {
-      console.log(postsArr)
       postsArr.forEach((postObj) => {
         if (postObj.category === "paintings"){
           mainPagePostToHtml(postObj);
@@ -124,7 +134,6 @@ photographyLi.addEventListener("click", (evt) => {
   fetch(BASE_URL)
   .then((r) => r.json())
   .then((postsArr) => {
-    console.log(postsArr)
     postsArr.forEach((postObj) => {
       if (postObj.category === "photography"){
         mainPagePostToHtml(postObj);
@@ -138,7 +147,6 @@ drawingsLi.addEventListener("click", (evt) => {
   fetch(BASE_URL)
   .then((r) => r.json())
   .then((postsArr) => {
-    console.log(postsArr)
     postsArr.forEach((postObj) => {
       if (postObj.category === "drawings"){
         mainPagePostToHtml(postObj);
@@ -152,7 +160,6 @@ randomLi.addEventListener("click", (evt) => {
   fetch(BASE_URL)
   .then((r) => r.json())
   .then((postsArr) => {
-    console.log(postsArr)
     postsArr.forEach((postObj) => {
       if (postObj.category === "random"){
         mainPagePostToHtml(postObj);
@@ -222,15 +229,17 @@ postPicture.addEventListener("click", (evt) => {
 
   let commentUl = document.createElement("ul")
   commentUl.className = "comment-ul"
-
+//----------CREATING COMMENTS--------------
   postObj.comments.forEach(function(comment) {
     let commentLi = document.createElement("li")
     commentLi.innerText = `${comment.content} Written by: ${comment.user_name}`
     commentUl.append(commentLi)
   })
 
+
   let deletePostBtn = document.createElement("span")
   deletePostBtn.innerText = "🗑 DELETE THIS POST!"
+
       // EVENT LISTENER TO DELETE BUTTON
       deletePostBtn.addEventListener("click", (evt) => {
         fetch(`http://localhost:3000/posts/${postObj.id}`, {
@@ -238,11 +247,34 @@ postPicture.addEventListener("click", (evt) => {
         })
         .then(resp => resp.json())
         .then(() => {
-          fullPostDiv.remove()
+          //fullPostDiv.remove()
+          postLi.remove()
+  
         })
     }) // END OF DELETE EVENT LISTENER
+
+    let commentForm = document.createElement("form")
+    commentForm.id = "new-comment-form" 
+    // let addACommentH2 = document.createElement("h2")
+    // addACommentH2.innerText = "Write Your Commenere here!"
+    let commentLabel = document.createElement("label")
+    commentLabel.innerText = "comment: "
+    let commentInput = document.createElement("input")
+    commentInput.type = "text"
+    commentInput.name = "comment"
+    commentInput.id = "comment-input"
+
+    let hiddenCommentField = document.createElement("input")
+    hiddenCommentField.type = "hidden"
+
+    let submitComment = document.createElement("input")
+    submitComment.type = "submit"
+    submitComment.value = "submit"
+
+
+    commentForm.append(commentLabel, commentInput, hiddenCommentField, submitComment)
   likeUserDiv.append(userSpan, fullPostLikes)
-  fullPostDiv.append(titleHeader, fullPostImg, likeUserDiv, commentUl, deletePostBtn)
+  fullPostDiv.append(titleHeader, fullPostImg, likeUserDiv, commentUl, commentForm, deletePostBtn)
 });
 
 // When the user clicks on <span> (x), close the modal
@@ -296,7 +328,6 @@ let createNewPostForm = (evt) => {
       user_id: evt.target.user_id.value
     }
 
-    console.log(userInput)
     fetch('http://localhost:3000/posts', {
       method: 'POST',
       headers: {
