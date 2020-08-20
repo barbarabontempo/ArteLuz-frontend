@@ -4,7 +4,9 @@ const newPostForm = document.querySelector("#new-post-form");
 const loginForm = document.querySelector("#login-form");
 const navbarDiv = document.querySelector(".container");
 const fullPostDiv = document.querySelector(".full-post-div")
-const postsArray = [];
+let postsArray = [];
+
+let loggedInUser = [];
 
 // -----------------LOGIN FORM--------------------
 loginForm.addEventListener("submit", handleLoginForm);
@@ -31,22 +33,21 @@ function handleLoginForm(evt) {
     });
 }
 
-
-
 // ------------ WHAT TO DO WITH USER RESPONSE ------------
 let showUserInfo = (user) => {
+  loggedInUser.push(user)
   makeNewPostLi(user);
   newPostForm.user_id.value = user.id
   user.posts.forEach(singlePost => {
     mainPagePostToHtml(singlePost)
   });
-
-
+//make the id of the user be equal to the hidden value 
+//create new post is submitted we have that id
+//new post form.input.value = user.id 
 };
 
 // ------------ APPEND AFTER LOGIN ------------
-
-function makeNewPostLi(singlePostObj) {
+function makeNewPostLi() {
   navbarDiv.innerHTML = "";
   let newPostLi = document.createElement("button");
   newPostLi.className = "item1";
@@ -55,23 +56,15 @@ function makeNewPostLi(singlePostObj) {
 
   let paintingsLi = document.createElement("li")
   paintingsLi.innerText = "Paintings"
-  paintingsLi.className = "painting-li"
 
   let drawingsLi = document.createElement("li")
   drawingsLi.innerText = "Drawings"
-  drawingsLi.className = "drawings-li"
 
   let photographyLi = document.createElement("li")
   photographyLi.innerText = "Photography"
-  photographyLi.className = "photography-li"
 
   let randomLi = document.createElement("li")
   randomLi.innerText = "Random"
-  randomLi.className ="random-li"
-
-  let myPosts = document.createElement("button")
-    myPosts.innerText = "My Posts"
-    myPosts.className = "my-posts-btn"
 
   let allPosts = document.createElement("button")
     allPosts.innerText = "All Posts"
@@ -80,14 +73,7 @@ function makeNewPostLi(singlePostObj) {
   logOutButton.className = "btn btn-danger";
   logOutButton.innerText = "Logout";
 
-  navbarDiv.append(paintingsLi, drawingsLi, photographyLi, randomLi, myPosts, allPosts, newPostLi, logOutButton);
-
-  myPosts.addEventListener("click", (evt) => {
-    postsOl.innerHTML = ""
-    singlePostObj.posts.forEach(singlePost => {
-      mainPagePostToHtml(singlePost)
-    });
-  })
+  navbarDiv.append(paintingsLi, drawingsLi, photographyLi, randomLi, allPosts, newPostLi, logOutButton);
 
   const modal = document.querySelector("#modal");
   newPostLi.addEventListener("click", () => {
@@ -110,67 +96,52 @@ function makeNewPostLi(singlePostObj) {
     .then((r) => r.json())
     .then((postsArr) => {
       postsArr.forEach((postObj) => {
+        postsArray.push(postObj)
         mainPagePostToHtml(postObj);
-        // postsArray.push(postObj)
       });
     });
   })
 // ---------------------- PAINTINGS EVT LISTENER -----------
   paintingsLi.addEventListener("click", (evt) => {
     postsOl.innerHTML = ""
-    fetch(BASE_URL)
-    .then((r) => r.json())
-    .then((postsArr) => {
-      postsArr.forEach((postObj) => {
+      postsArray.forEach((postObj) => {
         if (postObj.category === "paintings"){
           mainPagePostToHtml(postObj);
       }
       });
     });
-  })
 // ---------------------- PHOTOGRAPHY EVT LISTENER -----------
 photographyLi.addEventListener("click", (evt) => {
   postsOl.innerHTML = ""
-  fetch(BASE_URL)
-  .then((r) => r.json())
-  .then((postsArr) => {
-    postsArr.forEach((postObj) => {
+    postsArray.forEach((postObj) => {
       if (postObj.category === "photography"){
         mainPagePostToHtml(postObj);
     }
-    });
   });
-})
+});
 // ---------------------- DRAWINGS EVT LISTENER -----------
 drawingsLi.addEventListener("click", (evt) => {
   postsOl.innerHTML = ""
-  fetch(BASE_URL)
-  .then((r) => r.json())
-  .then((postsArr) => {
-    postsArr.forEach((postObj) => {
+    postsArray.forEach((postObj) => {
       if (postObj.category === "drawings"){
         mainPagePostToHtml(postObj);
     }
-    });
   });
-})
+});
 // ---------------------- RANDOM EVT LISTENER -----------
 randomLi.addEventListener("click", (evt) => {
   postsOl.innerHTML = ""
-  fetch(BASE_URL)
-  .then((r) => r.json())
-  .then((postsArr) => {
-    postsArr.forEach((postObj) => {
+    postsArray.forEach((postObj) => {
       if (postObj.category === "random"){
         mainPagePostToHtml(postObj);
     }
-    });
-  });
-})
+   });
+});
 
 }
 let logOut = () => {
   makeNewPostLi();
+  loggedInUser = [];
   postsOl.innerHTML=""
 };
 
@@ -229,17 +200,15 @@ postPicture.addEventListener("click", (evt) => {
 
   let commentUl = document.createElement("ul")
   commentUl.className = "comment-ul"
-//----------CREATING COMMENTS--------------
+
   postObj.comments.forEach(function(comment) {
     let commentLi = document.createElement("li")
     commentLi.innerText = `${comment.content} Written by: ${comment.user_name}`
     commentUl.append(commentLi)
   })
 
-
   let deletePostBtn = document.createElement("span")
   deletePostBtn.innerText = "🗑 DELETE THIS POST!"
-
       // EVENT LISTENER TO DELETE BUTTON
       deletePostBtn.addEventListener("click", (evt) => {
         fetch(`http://localhost:3000/posts/${postObj.id}`, {
@@ -247,52 +216,26 @@ postPicture.addEventListener("click", (evt) => {
         })
         .then(resp => resp.json())
         .then(() => {
-          //fullPostDiv.remove()
-          postLi.remove()
-  
+          fullPostDiv.remove()
         })
     }) // END OF DELETE EVENT LISTENER
-
-    let commentForm = document.createElement("form")
-    commentForm.id = "new-comment-form" 
-    // let addACommentH2 = document.createElement("h2")
-    // addACommentH2.innerText = "Write Your Commenere here!"
-    let commentLabel = document.createElement("label")
-    commentLabel.innerText = "comment: "
-    let commentInput = document.createElement("input")
-    commentInput.type = "text"
-    commentInput.name = "comment"
-    commentInput.id = "comment-input"
-
-    let hiddenCommentField = document.createElement("input")
-    hiddenCommentField.type = "hidden"
-
-    let submitComment = document.createElement("input")
-    submitComment.type = "submit"
-    submitComment.value = "submit"
-
-
-    commentForm.append(commentLabel, commentInput, hiddenCommentField, submitComment)
   likeUserDiv.append(userSpan, fullPostLikes)
-  fullPostDiv.append(titleHeader, fullPostImg, likeUserDiv, commentUl, commentForm, deletePostBtn)
+  fullPostDiv.append(titleHeader, fullPostImg, likeUserDiv, commentUl, deletePostBtn)
 });
 
 // When the user clicks on <span> (x), close the modal
 xSpan.onclick = function() {
   modalPost.style.display = "none";
 }
-
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
     modalPost.style.display = "none";
   }
 }
-
 //--------END OF IMAGE EVENT LISTENERRRR-------
 
-
-  //=============== LIKE EVT LISTENER ------------------
+//=============== LIKE EVT LISTENER ------------------
   likesSpan.addEventListener("click", (evt) => {
     let likesPlus = postObj.likes     // GET LIKES WE ALREADY HAVE 
         fetch(`http://localhost:3000/likes/`, {
@@ -327,7 +270,6 @@ let createNewPostForm = (evt) => {
       category: evt.target.category.value,
       user_id: evt.target.user_id.value
     }
-
     fetch('http://localhost:3000/posts', {
       method: 'POST',
       headers: {
