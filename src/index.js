@@ -239,7 +239,8 @@ postPicture.addEventListener("click", (evt) => {
     commentInput.name = "comment"
     commentInput.id = "comment-input"
     let hiddenCommentField = document.createElement("input")
-    hiddenCommentField.type = "hidden"
+      hiddenCommentField.type = "hidden"
+      hiddenCommentField.name = "userid"
     let submitComment = document.createElement("input")
     submitComment.type = "submit"
     submitComment.value = "submit"
@@ -251,10 +252,11 @@ postPicture.addEventListener("click", (evt) => {
   let createNewComment = (evt) => {
     evt.preventDefault()
 
+      commentForm.userid.value = loggedInUser[0].id
     const userComment = {
       content: evt.target.comment.value,
       post_id: postObj.id,
-      user_name: loggedInUser[0].username
+      user_id: evt.target.userid.value
     }
     fetch('http://localhost:3000/comments', {
       method: 'POST',
@@ -265,10 +267,11 @@ postPicture.addEventListener("click", (evt) => {
     })
       .then(r => r.json())
       .then((newComment) => {
-        debugger
+        // debugger
         let commentLi = document.createElement("li")
         commentLi.innerText = `${newComment.content} Written by: ${newComment.user_name}`
         commentUl.append(commentLi)
+        commentForm.reset()
       })
   }
   commentForm.addEventListener("submit", createNewComment)
