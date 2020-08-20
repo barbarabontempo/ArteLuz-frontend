@@ -3,7 +3,8 @@ const postsOl = document.querySelector(".all-posts");
 const newPostForm = document.querySelector("#new-post-form");
 const loginForm = document.querySelector("#login-form");
 const navbarDiv = document.querySelector(".container-nav");
-const fullPostDiv = document.querySelector(".full-post-div")
+const fullPostDiv = document.querySelector(".full-post-div"); 
+const loginButton = document.querySelector("#login-button");
 let postsArray = [];
 let loggedInUser = [];
 
@@ -155,6 +156,8 @@ let logOut = () => {
   makeNewPostLi();
   loggedInUser = [];
   postsOl.innerHTML=""
+  navbarDiv.innerHTML = ""
+  navbarDiv.append(loginButton)
 };
 
 function mainPagePostToHtml(postObj) {
@@ -224,7 +227,7 @@ postPicture.addEventListener("click", (evt) => {
     commentLi.innerText = `${comment.content} Written by: ${comment.user_name}`
     commentUl.append(commentLi)
   })
-// ------------------ COMMENT FORM ==================
+// ------------------ COMMENT FORM -----------------------------
   let commentForm = document.createElement("form")
     commentForm.id = "new-comment-form" 
     // let addACommentH2 = document.createElement("h2")
@@ -242,7 +245,36 @@ postPicture.addEventListener("click", (evt) => {
     submitComment.value = "submit"
 
     commentForm.append(commentLabel, commentInput, hiddenCommentField, submitComment)
-// -------- END OF COMMENT FORM --------------
+
+  // *****************************************************************************
+    // *************** EVT LISTENER FOR COMMENT FORM *****************************
+  let createNewComment = (evt) => {
+    evt.preventDefault()
+
+    const userComment = {
+      content: evt.target.comment.value,
+      post_id: postObj.id,
+      user_name: loggedInUser[0].username
+    }
+    fetch('http://localhost:3000/comments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userComment)
+    })
+      .then(r => r.json())
+      .then((newComment) => {
+        debugger
+        let commentLi = document.createElement("li")
+        commentLi.innerText = `${newComment.content} Written by: ${newComment.user_name}`
+        commentUl.append(commentLi)
+      })
+  }
+  commentForm.addEventListener("submit", createNewComment)
+
+    // *************************** END OF EVT LISTENER ******************************
+// ************************ END OF COMMENT FORM **************************************
 
   let deletePostBtn = document.createElement("span")
   deletePostBtn.innerText = "🗑 DELETE THIS POST!"
@@ -258,11 +290,11 @@ postPicture.addEventListener("click", (evt) => {
   }) //     END OF DELETE EVENT LISTENER
   likeUserDiv.append(userSpan, fullPostLikes)
   modalBodyDiv.append(titleHeader, fullPostImg, postDescription, likeUserDiv, commentUl, commentForm)
-  // ************** CONDITON FOR DELETE BUTTON ******************************
+  // ------------------- CONDITON FOR DELETE BUTTON -----------------
   if (loggedInUser[0].id === postObj.user_id) {
     modalBodyDiv.append(deletePostBtn);
   }
-  // ************************************************************************
+  // -------------------------------------
   fullPostDiv.append(modalBodyDiv)
 });
 
