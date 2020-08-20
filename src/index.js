@@ -5,7 +5,6 @@ const loginForm = document.querySelector("#login-form");
 const navbarDiv = document.querySelector(".container-nav");
 const fullPostDiv = document.querySelector(".full-post-div")
 let postsArray = [];
-
 let loggedInUser = [];
 
 // -----------------LOGIN FORM--------------------
@@ -47,7 +46,7 @@ let showUserInfo = (user) => {
 };
 
 // ------------ APPEND AFTER LOGIN ------------
-function makeNewPostLi() {
+function makeNewPostLi(singlePostObj) {
   navbarDiv.innerHTML = "";
   let newPostLi = document.createElement("li");
   newPostLi.className = "item1";
@@ -78,7 +77,15 @@ function makeNewPostLi() {
   logOutButton.className = "btn btn-danger";
   logOutButton.innerText = "Logout";
 
-  navbarDiv.append(paintingsLi, drawingsLi, photographyLi, randomLi, allPosts, newPostLi, logOutButton);
+  navbarDiv.append(paintingsLi, drawingsLi, photographyLi, randomLi, myPosts, allPosts, newPostLi, logOutButton);
+
+  // ------------- MY POSTS EVT LISTENER -----
+  myPosts.addEventListener("click", (evt) => {
+    postsOl.innerHTML = ""
+    singlePostObj.posts.forEach(singlePost => {
+      mainPagePostToHtml(singlePost)
+    });
+  })
 
   const modal = document.querySelector("#modal");
   newPostLi.addEventListener("click", () => {
@@ -217,6 +224,25 @@ postPicture.addEventListener("click", (evt) => {
     commentLi.innerText = `${comment.content} Written by: ${comment.user_name}`
     commentUl.append(commentLi)
   })
+// ------------------ COMMENT FORM ==================
+  let commentForm = document.createElement("form")
+    commentForm.id = "new-comment-form" 
+    // let addACommentH2 = document.createElement("h2")
+    // addACommentH2.innerText = "Write Your Commenere here!"
+    let commentLabel = document.createElement("label")
+    commentLabel.innerText = "comment: "
+    let commentInput = document.createElement("input")
+    commentInput.type = "text"
+    commentInput.name = "comment"
+    commentInput.id = "comment-input"
+    let hiddenCommentField = document.createElement("input")
+    hiddenCommentField.type = "hidden"
+    let submitComment = document.createElement("input")
+    submitComment.type = "submit"
+    submitComment.value = "submit"
+
+    commentForm.append(commentLabel, commentInput, hiddenCommentField, submitComment)
+// -------- END OF COMMENT FORM --------------
 
   let deletePostBtn = document.createElement("span")
   deletePostBtn.innerText = "🗑 DELETE THIS POST!"
@@ -227,11 +253,16 @@ postPicture.addEventListener("click", (evt) => {
         })
         .then(resp => resp.json())
         .then(() => {
-          fullPostDiv.remove()
+          postLi.remove()
         })
-    }) // END OF DELETE EVENT LISTENER
+  }) //     END OF DELETE EVENT LISTENER
   likeUserDiv.append(userSpan, fullPostLikes)
-  modalBodyDiv.append(titleHeader, fullPostImg, postDescription, likeUserDiv, commentUl, commentForm, deletePostBtn)
+  modalBodyDiv.append(titleHeader, fullPostImg, postDescription, likeUserDiv, commentUl, commentForm)
+  // ************** CONDITON FOR DELETE BUTTON ******************************
+  if (loggedInUser[0].id === postObj.user_id) {
+    modalBodyDiv.append(deletePostBtn);
+  }
+  // ************************************************************************
   fullPostDiv.append(modalBodyDiv)
 });
 
