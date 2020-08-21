@@ -4,6 +4,33 @@ body{
   font-family: 'Montserrat', sans-serif;
 }
 
+.before-login {
+  /* background-image: url(images/iceland-15.jpg); */
+  /* background:center center cover no-repeat fixed; */
+  text-align: center;
+  font-size: 300%;
+  color: white;
+}
+
+.img-backgound {
+background-size: 150px;
+width: 200px;
+height: 200px;
+}
+.item-login {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
 .header{
     background: whitesmoke;
     font-family: 'Raleway Dots', cursive;
@@ -41,7 +68,7 @@ body{
     
 }
 
-  
+  /* =========================================== */
 #modal {
     position: fixed;
     z-index: 1;
@@ -74,18 +101,32 @@ body{
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: transparent(0, 0, 0, 0.75);
   }
 
   #login-form {
-    background-color: whitesmoke;
+    background-color: transparent;
     margin-top: 10vh;
     margin-bottom: 10vh;
     width: 500px;
     margin: 20vh auto 0;
     padding: 20px;
   }
-  
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 500px;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 40%; */
+
+
+
+
+
+
   input[type=text] {
     width: 100%;
     padding: 12px 20px;
@@ -114,9 +155,22 @@ body{
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 70%;
+  text-align: center;
 }
 
+.full-post-div img {
+  max-width: 75vw;
+  max-height: 25vw;
+}
+
+.full-post-div {
+  overflow: auto;
+}
+
+.h4-titles  {
+  text-align: center;
+}
 /* The Close Button */
 .close {
   color: #aaaaaa;

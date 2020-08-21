@@ -8,6 +8,8 @@ const loginButton = document.querySelector("#login-button");
 let postsArray = [];
 let loggedInUser = [];
 
+const beforeLoginDiv = document.querySelector(".before-login");
+const navContainer = document.querySelector(".nav-container")
 // -----------------LOGIN FORM--------------------
 loginForm.addEventListener("submit", handleLoginForm);
 
@@ -36,6 +38,7 @@ function handleLoginForm(evt) {
 // ------------ WHAT TO DO WITH USER RESPONSE ------------
 let showUserInfo = (user) => {
   loggedInUser.push(user)
+  beforeLoginDiv.innerHTML = ""
   makeNewPostLi(user);
   newPostForm.user_id.value = user.id
     fetch(BASE_URL)
@@ -54,6 +57,11 @@ let showUserInfo = (user) => {
 // ------------ APPEND AFTER LOGIN ------------
 function makeNewPostLi(singlePostObj) {
   navbarDiv.innerHTML = "";
+
+  const h1ArteLuz = document.createElement("h1");
+  h1ArteLuz.innerText = " ARTE LUZ"
+  navContainer.append(h1ArteLuz)
+
   let newPostLi = document.createElement("li");
   newPostLi.className = "item1";
   newPostLi.id = "make-post-button";
@@ -157,10 +165,11 @@ let logOut = () => {
   loggedInUser = [];
   postsOl.innerHTML=""
   navbarDiv.innerHTML = ""
-  navbarDiv.append(loginButton)
+  beforeLoginDiv.append(loginButton)
 };
 
 function mainPagePostToHtml(postObj) {
+
   let postLi = document.createElement("li");
   postLi.className = "post-item";
 
