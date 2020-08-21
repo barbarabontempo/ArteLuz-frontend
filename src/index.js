@@ -10,6 +10,7 @@ let loggedInUser = [];
 
 const beforeLoginDiv = document.querySelector(".before-login");
 const navContainer = document.querySelector(".nav-container")
+const modal1login = document.querySelector("#modal1")
 // -----------------LOGIN FORM--------------------
 loginForm.addEventListener("submit", handleLoginForm);
 
@@ -29,6 +30,7 @@ function handleLoginForm(evt) {
     .then((response) => {
       if (response.id) {
         showUserInfo(response);
+        modal1login.style.display = "none"
       } else {
         console.log(response);
       }

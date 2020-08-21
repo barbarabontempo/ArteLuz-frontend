@@ -7,6 +7,8 @@ body{
 .before-login {
   /* background-image: url(images/iceland-15.jpg); */
   /* background:center center cover no-repeat fixed; */
+  width: 100px;
+  height: 100px;
   text-align: center;
   font-size: 300%;
   color: white;
@@ -18,6 +20,7 @@ width: 200px;
 height: 200px;
 }
 .item-login {
+  font-size: 80%;
   position: absolute;
   top: 8px;
   right: 16px;
@@ -27,7 +30,14 @@ height: 200px;
   position: absolute;
   top: 50%;
   left: 50%;
+  font-size:100px;
   transform: translate(-50%, -50%);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.09), 
+    0 2px 2px rgba(0,0,0,0.09), 
+    0 4px 4px rgba(0,0,0,0.09), 
+    0 8px 8px rgba(0,0,0,0.09), 
+    0 16px 16px rgba(0,0,0,0.09), 
+	0 32px 32px rgba(0,0,0,0.09);
 }
 
 
@@ -122,11 +132,6 @@ height: 200px;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 40%; */
 
-
-
-
-
-
   input[type=text] {
     width: 100%;
     padding: 12px 20px;
@@ -156,7 +161,7 @@ height: 200px;
   padding: 20px;
   border: 1px solid #888;
   width: 70%;
-  text-align: center;
+
 }
 
 .full-post-div img {
@@ -256,4 +261,8 @@ justify-content: center;
 .post-title-img {
   height: 300px;
   width: 300px;
+}
+
+.post-title-header{
+  text-align: center;
 }
