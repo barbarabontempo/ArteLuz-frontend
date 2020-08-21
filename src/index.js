@@ -256,6 +256,7 @@ postPicture.addEventListener("click", (evt) => {
     let submitComment = document.createElement("input")
     submitComment.type = "submit"
     submitComment.value = "submit"
+    submitComment.id = "button-button"
 
     commentForm.append(commentLabel, commentInput, hiddenCommentField, submitComment)
 
