@@ -11,6 +11,7 @@ let loggedInUser = [];
 const beforeLoginDiv = document.querySelector(".before-login");
 const navContainer = document.querySelector(".nav-container")
 const modal1login = document.querySelector("#modal1")
+const createPostModal = document.querySelector("#modal")
 // -----------------LOGIN FORM--------------------
 loginForm.addEventListener("submit", handleLoginForm);
 
@@ -302,6 +303,7 @@ postPicture.addEventListener("click", (evt) => {
         .then(resp => resp.json())
         .then(() => {
           postLi.remove()
+          modalPost.style.display = "none";
         })
   }) //     END OF DELETE EVENT LISTENER
   likeUserDiv.append(userSpan, fullPostLikes)
@@ -370,6 +372,7 @@ let createNewPostForm = (evt) => {
       .then(r => r.json())
       .then((newPost) => {
         mainPagePostToHtml(newPost)
+        createPostModal.style.display = "none";
         newPostForm.reset()
       })
   }
