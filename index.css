@@ -272,3 +272,15 @@ justify-content: center;
 .post-title-header{
   text-align: center;
 }
+
+.comment-ul{
+  list-style-type:none;
+}
+
+.comment-li { 
+  background: #d49a89;
+
+}
+.comment-li:nth-child(odd) { 
+  background: #e0ece4; 
+}

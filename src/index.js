@@ -235,6 +235,7 @@ postPicture.addEventListener("click", (evt) => {
 
   postObj.comments.forEach(function(comment) {
     let commentLi = document.createElement("li")
+    commentLi.className = "comment-li"
     commentLi.innerText = `${comment.content} Written by: ${comment.user_name}`
     commentUl.append(commentLi)
   })
