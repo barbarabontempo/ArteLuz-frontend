@@ -13,6 +13,20 @@ body{
   font-size: 300%;
   color: white;
 }
+/* ----- BUTTONS ============= */
+#button-button {
+  border: #ffaa71 solid 1px;
+  color: #206a5d;
+  border-radius: 10px !important;
+  background-color: white;
+}
+
+#button-button:hover{
+  border:#d9adad solid 2px;
+  /* color: rgb(166, 242, 255); */
+}
+
+/* ----- BUTTONS ============= */
 
 .img-backgound {
 background-size: 150px;
@@ -259,7 +273,7 @@ justify-content: center;
 
 
 .post-title-img {
-  display: ;
+  /* display: ; */
   display: block;
   max-width: 100%;
   height: auto;
