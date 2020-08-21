@@ -90,7 +90,7 @@ function makeNewPostLi(singlePostObj) {
     allPosts.innerText = "All Posts"
 
   let logOutButton = document.createElement("button");
-  logOutButton.className = "btn btn-danger";
+  logOutButton.id = "button-button";
   logOutButton.innerText = "Logout";
 
   navbarDiv.append(paintingsLi, drawingsLi, photographyLi, randomLi, myPosts, allPosts, newPostLi, logOutButton);
@@ -333,7 +333,6 @@ window.onclick = function(event) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({                // ADD LIKES OBJECT PROPERTIES
-                // quoteId: singleQuote.id,   
                 post_id: postObj.id,
                 user_id: postObj.user_id
             })
